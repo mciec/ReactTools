@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
-import './components/SourceText';
-import { SourceText } from './components/SourceText';
+import { SrcText } from './components/SrcText';
 
 function App() {
   return (
     <div className="App">
-      <SourceText />
+      <SrcText />
     </div>
   );
 }

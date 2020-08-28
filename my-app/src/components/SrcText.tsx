@@ -5,7 +5,7 @@ interface InternalText {
     Text : string[]
 }
 
-export class SourceText extends React.Component<{}, InternalText>{
+export class SrcText extends React.Component<{}, InternalText>{
 
     constructor(){
         super({});
