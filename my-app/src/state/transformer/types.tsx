@@ -4,6 +4,8 @@ import { dstText } from "../dstText/types";
 export interface transformer {
     src: srcText;
     dst: dstText;
+    transformationType: TRANSFORMATION_TYPE;
+
 }
 
 export const CHANGE_TRANSFORMATION_TYPE = "CHANGE_TRANSFORMATION";
