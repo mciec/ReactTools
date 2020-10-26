@@ -1,3 +1,3 @@
-export interface srcText {
-    text: string;    
+export interface SrcText {
+    Text: string;    
 }

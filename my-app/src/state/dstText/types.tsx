@@ -1,3 +1,3 @@
-export interface dstText {
-  text: string;
+export interface DstText {
+  Text: string;
 }

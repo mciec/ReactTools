@@ -1,25 +1,31 @@
-import { srcText } from "../srcText/types";
-import { dstText } from "../dstText/types";
+import { SrcText } from "../SrcText/types";
+import { DstText } from "../DstText/types";
 
-export interface transformer {
-    src: srcText;
-    dst: dstText;
-    transformationType: TRANSFORMATION_TYPE;
+export type ActionType = "MODIFY_SOURCE" | "SET_PREFIX_SUFFIX" | "SET_SIMPLE_FILTER";
 
+export type ModifySourceTransformation = {
+  Text: string;
 }
 
-export const CHANGE_TRANSFORMATION_TYPE = "CHANGE_TRANSFORMATION";
-export type TRANSFORMATION_TYPE = "PREFIX_SUFFIX" | "SIMPLE_FILTER" | "ANYTHING";
+export type PrefixSuffixTransformation = {
+  Prefix: string;
+  Suffix: string;
+}
 
-export type lineTransformFunction = (line: string) => string;
+export type FilterTransformation = {
+  FilterLine(line: string): boolean;
+}
 
-export interface changeTransformationTypeAction {
-  type: typeof CHANGE_TRANSFORMATION_TYPE;
-  payload: {
-    transformationType: TRANSFORMATION_TYPE,
-    parameters: string[] | lineTransformFunction
-  }
-};
+export type Transformer = {
+  Src: SrcText;
+  Dst: DstText;
+  Transformation: PrefixSuffixTransformation | FilterTransformation | null;
+}
 
-
-export type changeTransformationActionTypes = changeTransformationTypeAction;
+export type UserAction = {
+  type: ActionType;
+  payload:
+    | ModifySourceTransformation
+    | PrefixSuffixTransformation
+    | FilterTransformation;
+}

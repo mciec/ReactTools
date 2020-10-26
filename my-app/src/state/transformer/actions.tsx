@@ -1,26 +1,30 @@
-import { changeTransformationActionTypes, TRANSFORMATION_TYPE, CHANGE_TRANSFORMATION_TYPE, lineTransformFunction } from "./types";
+import {
+  FilterTransformation,
+  PrefixSuffixTransformation,
+  UserAction,
+} from "./types";
 
-export function addPrefixSuffix(
-  prefix: string,
-  suffix: string
-): changeTransformationActionTypes {
+export function ModifySource(str: string): UserAction {
   return {
-    type: CHANGE_TRANSFORMATION_TYPE,
+    type: "MODIFY_SOURCE",
     payload: {
-      transformationType: "PREFIX_SUFFIX",
-      parameters: [prefix, suffix],
+      Text: str,
     },
   };
 }
 
-export function addSimpleFilter(
-  fun: lineTransformFunction
-): changeTransformationActionTypes {
+export function AddPrefixSuffix(
+  prefixSuffix: PrefixSuffixTransformation
+): UserAction {
   return {
-    type: CHANGE_TRANSFORMATION_TYPE,
-    payload: {
-      transformationType: "SIMPLE_FILTER",
-      parameters: fun
-    },
+    type: "SET_PREFIX_SUFFIX",
+    payload: prefixSuffix,
+  };
+}
+
+export function AddSimpleFilter(func: FilterTransformation): UserAction {
+  return {
+    type: "SET_SIMPLE_FILTER",
+    payload: func,
   };
 }
