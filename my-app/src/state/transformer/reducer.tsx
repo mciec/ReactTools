@@ -1,11 +1,33 @@
 import { Reducer } from "../../../node_modules/redux";
 import {
   FilterTransformation,
-  ModifySourceTransformation,
+  ModifySource,
   PrefixSuffixTransformation,
+  Transformation,
   Transformer,
   UserAction,
 } from "./types";
+
+const doTransformation = function (
+  src: string,
+  transformation: Transformation | null
+): string {
+  let pst = transformation as PrefixSuffixTransformation;
+  let sft = transformation as FilterTransformation;
+
+  if (pst != null) {
+    let lines: string[] = src.split("\r");
+    let dst = lines.map((line) => pst.Prefix + line + pst.Suffix);
+    let res: string = dst.join("\r");
+    return res;
+  } else if (sft != null) {
+    let lines: string[] = src.split("\r");
+    let dst = lines.filter((line) => (sft.FilterLine(line) ? line : ""));
+    let res: string = dst.join("\r");
+    return res;
+  }
+  return src;
+};
 
 export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
   let res: Transformer = {
@@ -19,46 +41,33 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
 
   switch (a.type) {
     case "MODIFY_SOURCE":
-      let mst: ModifySourceTransformation = a.payload as ModifySourceTransformation;
-      if (mst != null) {
-        let res: Transformer = {
+      let mst: ModifySource = a.payload as ModifySource;
+      if (mst != null)
+        return {
+          ...s,
           Src: { Text: mst.Text },
-          Dst: { Text: mst.Text },
-          Transformation: null,
+          Dst: { Text: doTransformation(mst.Text, s.Transformation) },
         };
-        return res;
-      }
       break;
 
     case "SET_PREFIX_SUFFIX":
       let pst: PrefixSuffixTransformation = a.payload as PrefixSuffixTransformation;
-      if (pst != null) {
-        let lines: string[] = s?.Src.Text.split("\r");
-        let dst = lines.map((line) => pst.Prefix + line + pst.Suffix);
-        let res: Transformer = {
-          Src: { Text: s.Src.Text },
-          Dst: { Text: dst.join("\r") },
+      if (pst != null)
+        return {
+          ...s,
+          Dst: { Text: doTransformation(s.Src.Text, pst) },
           Transformation: pst,
         };
-        return res;
-      }
       break;
 
     case "SET_SIMPLE_FILTER":
       let ft: FilterTransformation = a.payload as FilterTransformation;
-      if (ft != null) {
-        let lines: string[] = s?.Src.Text.split("\r");
-        let dst = lines.filter((line) => (ft.FilterLine(line) ? line : ""));
-        let res: Transformer = {
-          Src: { Text: s.Src.Text },
-          Dst: { Text: dst.join("\r") },
+      if (ft != null)
+        return {
+          ...s,
+          Dst: { Text: doTransformation(s.Src.Text, ft) },
           Transformation: ft,
         };
-        return res;
-      }
-      break;
-
-    default:
       break;
   }
   return res;

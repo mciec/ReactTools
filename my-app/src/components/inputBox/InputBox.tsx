@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from "react";
-import "../App.css";
+import "../../App.css";
 import { Transformer } from "../../state/transformer/types";
 import { SrcText } from "../../state/srcText/types";
-import { stat } from "fs";
-import { Transformer } from "../Transformer";
-
+import { ModifySource } from "../../state/transformer/actions";
+import { connect } from "react-redux";
 
 type ObjectProps = {
   srcText: SrcText;
@@ -14,7 +13,7 @@ type FunctionProps = {
   changeSrcText: (src: string) => any;
 };
 
-const InputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
+const inputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
   const HandleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     let a: string = event.target.value;
     props.changeSrcText(a);
@@ -31,22 +30,16 @@ const InputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
   );
 };
 
-const MapStateToProps = function(state: Transformer) : ObjectProps {
+const mapStateToProps = function (state: Transformer): ObjectProps {
   return {
-    srcText: state.Src
-  }
-}
+    srcText: state.Src,
+  };
+};
 
-const MapDispatchToProps = function(state: Transformer) : FunctionProps {
+const mapDispatchToProps = function (dispatch: any): FunctionProps {
   return {
-    changeSrcText: (s) => dispatch()
-  }
-}
+    changeSrcText: (s) => dispatch(ModifySource(s)),
+  };
+};
 
-
-
-
-
-
-
-
+export const InputBox = connect(mapStateToProps, mapDispatchToProps)(inputBox);

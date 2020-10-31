@@ -1,16 +1,15 @@
 import React from "react";
+import { Provider } from "react-redux";
 import "./App.css";
-import { Transformer } from "./state/transformer/types";
-import { InputBox } from "./components/inputBox/InputBox";
-
+import { Transformer } from "./components/Transformer";
+import store from "./state/store";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <Provider store={store}>
+      <Transformer />;
+    </Provider>
+  );
 }
-
-
-
-
-
 
 export default App;

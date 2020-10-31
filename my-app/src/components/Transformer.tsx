@@ -1,20 +1,20 @@
-import React, { FunctionComponent, Props } from 'react';
-import { DstText } from '../state/dstText/types';
-import { SrcText } from '../state/srcText/types';
-import { InputBox } from './inputBox/InputBox';
-import { OutputBox } from './outputBox/OutputBox';
+import React, { FunctionComponent } from "react";
+import { DstText } from "../state/dstText/types";
+import { SrcText } from "../state/srcText/types";
+import { InputBox } from "./inputBox/InputBox";
+import { OutputBox } from "./outputBox/OutputBox";
 
 type Props = {
-    srcText: SrcText;
-    dstText: DstText;
-    changeSrcText: (src: string) => any;
-}
+  srcText: SrcText;
+  dstText: DstText;
+  changeSrcText: (src: string) => any;
+};
 
-export const Transformer: FunctionComponent<Props> = (props) =>{
-    return (
-        <div>
-        <InputBox { ...{ srcText: props.srcText, changeSrcText: props.changeSrcText } }/>
-        <OutputBox { ...{ dstText: props.dstText} }/>
-        </div>
-    )
-}
+export const Transformer: FunctionComponent = () => {
+  return (
+    <div>
+      <InputBox />
+      <OutputBox />
+    </div>
+  );
+};
