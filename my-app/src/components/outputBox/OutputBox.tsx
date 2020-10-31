@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import '../App.css';
-import { DstText } from '../state/DstText/types';
+import { DstText } from '../../state/dstText/types';
+
 
 type Props = {
     dstText: DstText;
 }
-export const OutputBox: React.FC<Props> = (props) => {
+
+export const OutputBox: FunctionComponent<Props> = (props) => {
     return (
       <textarea
-        id="MySourceText"
+        id="MyDstText"
         value={props.dstText.Text}
         rows={20}
         cols={80}

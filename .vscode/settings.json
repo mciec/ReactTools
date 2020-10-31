@@ -1,6 +1,6 @@
 {
     "git.ignoreLimitWarning": true,
-    "editor.fontFamily": "'Cascadia Code PL Light'",
-    "editor.fontSize": 13,
-    "javascript.format.semicolons": "insert"
+    "editor.fontSize": 14,
+    "javascript.format.semicolons": "insert",
+    "editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'"
 }

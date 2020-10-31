@@ -1,3 +1,3 @@
 export interface SrcText {
-    Text: string;    
+    Text: string;
 }

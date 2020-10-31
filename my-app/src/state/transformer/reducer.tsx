@@ -7,7 +7,7 @@ import {
   UserAction,
 } from "./types";
 
-const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
+export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
   let res: Transformer = {
     Src: { Text: "" },
     Dst: { Text: "" },
