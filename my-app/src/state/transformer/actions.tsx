@@ -1,6 +1,5 @@
 import {
-  FilterTransformation,
-  PrefixSuffixTransformation,
+  Transformation,
   UserAction,
 } from "./types";
 
@@ -13,18 +12,9 @@ export function ModifySource(str: string): UserAction {
   };
 }
 
-export function AddPrefixSuffix(
-  prefixSuffix: PrefixSuffixTransformation
-): UserAction {
+export function SetTransformation(t: Transformation): UserAction {
   return {
-    type: "SET_PREFIX_SUFFIX",
-    payload: prefixSuffix,
-  };
-}
-
-export function AddSimpleFilter(func: FilterTransformation): UserAction {
-  return {
-    type: "SET_SIMPLE_FILTER",
-    payload: func,
+    type: "CHANGE_TRANSFORMATION",
+    payload: t,
   };
 }

@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
-import { Transformer } from "../../state/transformer/types";
-import { SrcText } from "../../state/srcText/types";
-import { ModifySource } from "../../state/transformer/actions";
+import { Transformer } from "../../state/Transformer/types";
+import { SrcText } from "../../state/SrcText/types";
+import { ModifySource } from "../../state/Transformer/actions";
 import { connect } from "react-redux";
 
 type ObjectProps = {

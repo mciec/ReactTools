@@ -1,4 +1,4 @@
-import { Reducer } from "../../../node_modules/redux";
+import { Reducer } from "redux";
 import {
   FilterTransformation,
   ModifySource,
@@ -16,27 +16,26 @@ const doTransformation = function (
   let sft = transformation as FilterTransformation;
 
   if (pst != null) {
-    let lines: string[] = src.split("\r");
+    let lines: string[] = src.split("\n");
     let dst = lines.map((line) => pst.Prefix + line + pst.Suffix);
-    let res: string = dst.join("\r");
+    let res: string = dst.join("\n");
     return res;
   } else if (sft != null) {
     let lines: string[] = src.split("\r");
     let dst = lines.filter((line) => (sft.FilterLine(line) ? line : ""));
-    let res: string = dst.join("\r");
+    let res: string = dst.join("\n");
     return res;
   }
   return src;
 };
 
 export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
-  let res: Transformer = {
-    Src: { Text: "" },
-    Dst: { Text: "" },
-    Transformation: null,
-  };
   if (s === undefined) {
-    return res;
+    return {
+      Src: { Text: "" },
+      Dst: { Text: "" },
+      Transformation: null,
+    };
   }
 
   switch (a.type) {
@@ -50,18 +49,15 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
         };
       break;
 
-    case "SET_PREFIX_SUFFIX":
+    case "CHANGE_TRANSFORMATION":
       let pst: PrefixSuffixTransformation = a.payload as PrefixSuffixTransformation;
+      let ft: FilterTransformation = a.payload as FilterTransformation;
       if (pst != null)
         return {
           ...s,
           Dst: { Text: doTransformation(s.Src.Text, pst) },
           Transformation: pst,
         };
-      break;
-
-    case "SET_SIMPLE_FILTER":
-      let ft: FilterTransformation = a.payload as FilterTransformation;
       if (ft != null)
         return {
           ...s,
@@ -70,5 +66,5 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
         };
       break;
   }
-  return res;
+  return s;
 };

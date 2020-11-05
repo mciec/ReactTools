@@ -1,10 +1,9 @@
-import { SrcText } from "../srcText/types";
-import { DstText } from "../dstText/types";
+import { SrcText } from "../SrcText/types";
+import { DstText } from "../DstText/types";
 
 export type ActionType =
   | "MODIFY_SOURCE"
-  | "SET_PREFIX_SUFFIX"
-  | "SET_SIMPLE_FILTER";
+  | "CHANGE_TRANSFORMATION"
 
 export type ModifySource = {
   Text: string;
@@ -16,6 +15,7 @@ export type PrefixSuffixTransformation = {
 };
 
 export type FilterTransformation = {
+  Name: string;
   FilterLine(line: string): boolean;
 };
 
@@ -29,5 +29,5 @@ export type Transformer = {
 
 export type UserAction = {
   type: ActionType;
-  payload: ModifySource | Transformation;
+  payload: ModifySource | Transformation | undefined;
 };

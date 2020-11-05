@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
-import { DstText } from "../../state/dstText/types";
-import { Transformer } from "../../state/transformer/types";
+import { DstText } from "../../state/DstText/types";
+import { Transformer } from "../../state/Transformer/types";
 import { connect } from "react-redux";
 
 type ObjectProps = {

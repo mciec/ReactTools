@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { DstText } from "../state/dstText/types";
-import { SrcText } from "../state/srcText/types";
-import { InputBox } from "./inputBox/InputBox";
-import { OutputBox } from "./outputBox/OutputBox";
+import { DstText } from "../state/DstText/types";
+import { SrcText } from "../state/SrcText/types";
+import { InputBox } from "./InputBox/InputBox";
+import { OutputBox } from "./OutputBox/OutputBox";
+import { TransformationItem } from "./TransformationItem/TransformationItem";
 
 type Props = {
   srcText: SrcText;
@@ -14,6 +15,7 @@ export const Transformer: FunctionComponent = () => {
   return (
     <div>
       <InputBox />
+      <TransformationItem/>
       <OutputBox />
     </div>
   );

@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
-import { Transformer } from "./transformer/types";
-import { TransformerReducer } from "./transformer/reducer";
+import { Transformer } from "./Transformer/types";
+import { TransformerReducer } from "./Transformer/reducer";
 
 const initialState: Transformer = {
     Src: { Text: "dupa\rdupa2" },
