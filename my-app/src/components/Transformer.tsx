@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from "react";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import { DstText } from "../state/DstText/types";
 import { SrcText } from "../state/SrcText/types";
 import { InputBox } from "./InputBox/InputBox";
@@ -13,10 +15,18 @@ type Props = {
 
 export const Transformer: FunctionComponent = () => {
   return (
-    <div>
-      <InputBox />
-      <TransformationItem/>
-      <OutputBox />
-    </div>
+    <Form>
+      <Form.Row>
+        <Col>
+          <InputBox />
+        </Col>
+        <Col>
+          <TransformationItem />
+        </Col>
+        <Col>
+          <OutputBox />
+        </Col>
+      </Form.Row>
+    </Form>
   );
 };
