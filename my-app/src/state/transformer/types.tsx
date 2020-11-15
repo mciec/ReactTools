@@ -1,11 +1,11 @@
 import { SrcText } from "../SrcText/types";
 import { DstText } from "../DstText/types";
 
-export type ActionType =
-  | "MODIFY_SOURCE"
-  | "CHANGE_TRANSFORMATION"
+export const MODIFY_SOURCE = "MODIFY_SOURCE";
+export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
+export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
 
-export type ModifySource = {
+export type SourceText = {
   Text: string;
 };
 
@@ -15,11 +15,31 @@ export type PrefixSuffixTransformation = {
 };
 
 export type FilterTransformation = {
-  Name: string;
+  FilterName: string;
   FilterLine(line: string): boolean;
 };
 
 export type Transformation = PrefixSuffixTransformation | FilterTransformation;
+
+export interface ModifySourceAction {
+  type: typeof MODIFY_SOURCE;
+  payload: SourceText;
+}
+
+export interface ChangeTransformationAction {
+  type: typeof CHANGE_TRANSFORMATION;
+  payload: Transformation;
+}
+
+export interface AddTransformationAction {
+  type: typeof ADD_TRANSFORMATION;
+  payload: Transformation;
+}
+
+export type UserAction =
+  | ModifySourceAction
+  | ChangeTransformationAction
+  | AddTransformationAction;
 
 export type Transformer = {
   Src: SrcText;
@@ -27,7 +47,14 @@ export type Transformer = {
   Transformation: Transformation | null;
 };
 
-export type UserAction = {
-  type: ActionType;
-  payload: ModifySource | Transformation | undefined;
-};
+export function isPrefixSuffixTransformation(
+  t: Transformation
+): t is PrefixSuffixTransformation {
+  return (t as PrefixSuffixTransformation).Prefix !== undefined;
+}
+
+export function isFilterTransformation(
+  t: Transformation
+): t is FilterTransformation {
+  return (t as FilterTransformation).FilterName !== undefined;
+}

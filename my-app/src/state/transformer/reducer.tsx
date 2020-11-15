@@ -1,28 +1,33 @@
 import { Reducer } from "redux";
 import {
-  FilterTransformation,
-  ModifySource,
-  PrefixSuffixTransformation,
+  SourceText,
   Transformation,
   Transformer,
   UserAction,
+  MODIFY_SOURCE,
+  CHANGE_TRANSFORMATION,
+  isPrefixSuffixTransformation,
+  isFilterTransformation,
 } from "./types";
 
 const doTransformation = function (
   src: string,
   transformation: Transformation | null
 ): string {
-  let pst = transformation as PrefixSuffixTransformation;
-  let sft = transformation as FilterTransformation;
+  if (transformation == null) return src;
 
-  if (pst != null) {
+  if (isPrefixSuffixTransformation(transformation)) {
     let lines: string[] = src.split("\n");
-    let dst = lines.map((line) => pst.Prefix + line + pst.Suffix);
+    let dst = lines.map(
+      (line) => transformation.Prefix + line + transformation.Suffix
+    );
     let res: string = dst.join("\n");
     return res;
-  } else if (sft != null) {
-    let lines: string[] = src.split("\r");
-    let dst = lines.filter((line) => (sft.FilterLine(line) ? line : ""));
+  } else if (isFilterTransformation(transformation)) {
+    let lines: string[] = src.split("\n");
+    let dst = lines.filter((line) =>
+      transformation.FilterLine(line) ? line : ""
+    );
     let res: string = dst.join("\n");
     return res;
   }
@@ -39,8 +44,8 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
   }
 
   switch (a.type) {
-    case "MODIFY_SOURCE":
-      let mst: ModifySource = a.payload as ModifySource;
+    case MODIFY_SOURCE:
+      let mst: SourceText = a.payload as SourceText;
       if (mst != null)
         return {
           ...s,
@@ -49,22 +54,12 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
         };
       break;
 
-    case "CHANGE_TRANSFORMATION":
-      let pst: PrefixSuffixTransformation = a.payload as PrefixSuffixTransformation;
-      let ft: FilterTransformation = a.payload as FilterTransformation;
-      if (pst != null)
-        return {
-          ...s,
-          Dst: { Text: doTransformation(s.Src.Text, pst) },
-          Transformation: pst,
-        };
-      if (ft != null)
-        return {
-          ...s,
-          Dst: { Text: doTransformation(s.Src.Text, ft) },
-          Transformation: ft,
-        };
-      break;
+    case CHANGE_TRANSFORMATION:
+      return {
+        ...s,
+        Dst: { Text: doTransformation(s.Src.Text, a.payload) },
+        Transformation: a.payload,
+      };
   }
   return s;
 };

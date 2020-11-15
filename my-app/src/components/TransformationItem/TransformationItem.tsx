@@ -1,13 +1,12 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
 import {
-  FilterTransformation,
-  PrefixSuffixTransformation,
+  isFilterTransformation,
+  isPrefixSuffixTransformation,
   Transformation,
   Transformer,
 } from "../../state/Transformer/types";
 import { connect } from "react-redux";
-import { ListFormat } from "typescript";
 import { SetTransformation } from "../../state/Transformer/actions";
 
 type ObjectProps = {
@@ -21,23 +20,46 @@ type FunctionProps = {
 const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
   props
 ) => {
-  let pst = props.transformation as PrefixSuffixTransformation;
-  let sft = props.transformation as FilterTransformation;
-
   const changeTransformationType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     let a: string = event.target.value;
     switch (a) {
       case "PrefixSuffix":
-        props.changeTransformationType({ Prefix: "", Suffix: "" });
+        props.changeTransformationType({ Prefix: "**", Suffix: "##" });
         break;
       case "SimpleFilter":
         props.changeTransformationType({
-          Name: "Remove A%",
+          FilterName: "Remove A%",
           FilterLine: (line) => !line.startsWith("A"),
         });
         break;
+    }
+  };
+
+  const changePrefix = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      props.transformation != null &&
+      isPrefixSuffixTransformation(props.transformation)
+    ) {
+      let prefix: string = event.target.value;
+      props.changeTransformationType({
+        ...props.transformation,
+        Prefix: prefix,
+      });
+    }
+  };
+
+  const changeSuffix = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      props.transformation != null &&
+      isPrefixSuffixTransformation(props.transformation)
+    ) {
+      let suffix: string = event.target.value;
+      props.changeTransformationType({
+        ...props.transformation,
+        Suffix: suffix,
+      });
     }
   };
 
@@ -47,26 +69,40 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
         id="transformation"
         name="transformation"
         onChange={changeTransformationType}
+        value={
+          props.transformation != null
+            ? isPrefixSuffixTransformation(props.transformation)
+              ? "PrefixSuffix"
+              : "SimpleFilter"
+            : ""
+        }
       >
-        <option value="PrefixSuffix" selected={pst != null}>
-          PrefixSuffix
-        </option>
-        <option value="SimpleFilter" selected={sft != null}>
-          SimpleFilter
-        </option>
+        <option value="PrefixSuffix">PrefixSuffix</option>
+        <option value="SimpleFilter">SimpleFilter</option>
       </select>
 
-      {pst != null ? (
+      {props.transformation != null &&
+      isPrefixSuffixTransformation(props.transformation) ? (
         <div>
-          <label htmlFor="prefix" />
-          <input id="prefix" value={pst.Prefix} /> <label htmlFor="suffix" />
-          <input id="suffix" value={pst.Suffix} />
+          <label htmlFor="prefix">Prefix</label>
+          <input
+            id="prefix"
+            value={props.transformation.Prefix}
+            onChange={changePrefix}
+          />
+          <label htmlFor="suffix">Suffix</label>
+          <input
+            id="suffix"
+            value={props.transformation.Suffix}
+            onChange={changeSuffix}
+          />
         </div>
       ) : null}
-      {sft != null ? (
+      {props.transformation != null &&
+      isFilterTransformation(props.transformation) ? (
         <div>
           <label htmlFor="filterName" />
-          <input id="filterName" value={sft.Name} />{" "}
+          <input id="filterName" value={props.transformation.FilterName} />{" "}
         </div>
       ) : null}
     </div>
@@ -85,6 +121,7 @@ const mapDispatchToProps = function (dispatch: any): FunctionProps {
       dispatch(SetTransformation(t)),
   };
 };
+
 export const TransformationItem = connect(
   mapStateToProps,
   mapDispatchToProps

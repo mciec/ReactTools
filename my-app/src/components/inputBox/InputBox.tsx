@@ -22,7 +22,7 @@ const inputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
   return (
     <textarea
       id="MySrcText"
-      //value={}
+      value={props.srcText.Text}
       onChange={HandleChange}
       rows={20}
       cols={80}
