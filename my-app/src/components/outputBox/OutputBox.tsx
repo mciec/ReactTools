@@ -3,6 +3,7 @@ import "../../App.css";
 import { DstText } from "../../state/DstText/types";
 import { Transformer } from "../../state/Transformer/types";
 import { connect } from "react-redux";
+import { Form } from "react-bootstrap";
 
 type ObjectProps = {
   dstText: DstText;
@@ -10,12 +11,12 @@ type ObjectProps = {
 
 const outputBox: FunctionComponent<ObjectProps> = (props) => {
   return (
-    <textarea
+    <Form.Control
+      as="textarea"
+      rows={20}
       id="MyDstText"
       value={props.dstText.Text}
-      rows={20}
-      cols={80}
-    ></textarea>
+    />
   );
 };
 

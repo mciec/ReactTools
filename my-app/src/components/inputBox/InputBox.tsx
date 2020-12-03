@@ -4,6 +4,7 @@ import { Transformer } from "../../state/Transformer/types";
 import { SrcText } from "../../state/SrcText/types";
 import { ModifySource } from "../../state/Transformer/actions";
 import { connect } from "react-redux";
+import { Form } from "react-bootstrap";
 
 type ObjectProps = {
   srcText: SrcText;
@@ -20,13 +21,13 @@ const inputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
   };
 
   return (
-    <textarea
+    <Form.Control
+      as="textarea"
+      rows={20}
       id="MySrcText"
       value={props.srcText.Text}
       onChange={HandleChange}
-      rows={20}
-      cols={80}
-    ></textarea>
+    />
   );
 };
 

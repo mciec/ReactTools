@@ -5,6 +5,11 @@ export const MODIFY_SOURCE = "MODIFY_SOURCE";
 export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
 export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
 
+export enum FilterType {
+  NotStartingWithA = "Not starting with A",
+  ShorterThan10Chars = "Shorter than 10 chars",
+}
+
 export type SourceText = {
   Text: string;
 };
@@ -15,8 +20,8 @@ export type PrefixSuffixTransformation = {
 };
 
 export type FilterTransformation = {
-  FilterName: string;
-  FilterLine(line: string): boolean;
+  FilterName: FilterType;
+  FilterFunc(line: string): boolean;
 };
 
 export type Transformation = PrefixSuffixTransformation | FilterTransformation;

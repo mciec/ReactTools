@@ -26,7 +26,7 @@ const doTransformation = function (
   } else if (isFilterTransformation(transformation)) {
     let lines: string[] = src.split("\n");
     let dst = lines.filter((line) =>
-      transformation.FilterLine(line) ? line : ""
+      transformation.FilterFunc(line) ? line : ""
     );
     let res: string = dst.join("\n");
     return res;

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
 import {
+  FilterType,
   isFilterTransformation,
   isPrefixSuffixTransformation,
   Transformation,
@@ -10,6 +11,9 @@ import { connect } from "react-redux";
 import { SetTransformation } from "../../state/Transformer/actions";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import { Container, InputGroup, Row } from "react-bootstrap";
+import { TransformationItemPrefixSuffix } from "../TransformationItemPrefixSuffix/TransformationItemPrefixSuffix";
+import { TransformationItemSimpleFilter } from "../TransformationItemSimpleFilter/TransformationItemSimpleFilter";
 
 type ObjectProps = {
   transformation: Transformation | null;
@@ -32,91 +36,84 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
         break;
       case "SimpleFilter":
         props.changeTransformationType({
-          FilterName: "Remove A%",
-          FilterLine: (line) => !line.startsWith("A"),
+          FilterName: FilterType.NotStartingWithA,
+          FilterFunc: (line) => !line.startsWith("A"),
         });
         break;
     }
   };
 
-  const changePrefix = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changePrefixSuffix = (prefix: string, suffix: string) => {
     if (
       props.transformation != null &&
       isPrefixSuffixTransformation(props.transformation)
     ) {
-      let prefix: string = event.target.value;
       props.changeTransformationType({
         ...props.transformation,
         Prefix: prefix,
-      });
-    }
-  };
-
-  const changeSuffix = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (
-      props.transformation != null &&
-      isPrefixSuffixTransformation(props.transformation)
-    ) {
-      let suffix: string = event.target.value;
-      props.changeTransformationType({
-        ...props.transformation,
         Suffix: suffix,
       });
     }
   };
 
+  const changeFilter = (
+    filterName: FilterType,
+    filterFunc: (line: string) => boolean
+  ) => {
+    if (
+      props.transformation != null &&
+      isFilterTransformation(props.transformation)
+    ) {
+      props.changeTransformationType({
+        ...props.transformation,
+        FilterName: filterName,
+        FilterFunc: filterFunc,
+      });
+    }
+  };
+
   return (
-    <Form>
-      <Form.Row>
-        <Col>
-          <select
-            id="transformation"
-            name="transformation"
-            onChange={changeTransformationType}
-            value={
-              props.transformation != null
-                ? isPrefixSuffixTransformation(props.transformation)
-                  ? "PrefixSuffix"
-                  : "SimpleFilter"
-                : ""
-            }
-          >
-            <option value="PrefixSuffix">PrefixSuffix</option>
-            <option value="SimpleFilter">SimpleFilter</option>
-          </select>
-        </Col>
+    <div className="mx-0 mt-1 mb-0">
+      <div className="mx-1 mt-1 mb-0">
+        <Form.Control
+          as="select"
+          id="transformation"
+          name="transformation"
+          onChange={changeTransformationType}
+          value={
+            props.transformation != null
+              ? isPrefixSuffixTransformation(props.transformation)
+                ? "PrefixSuffix"
+                : "SimpleFilter"
+              : ""
+          }
+        >
+          <option value="PrefixSuffix">PrefixSuffix</option>
+          <option value="SimpleFilter">SimpleFilter</option>
+        </Form.Control>
+      </div>
+
+      <div className="mx-1 mt-1 mb-0">
         {props.transformation != null &&
         isPrefixSuffixTransformation(props.transformation) ? (
-          <Col>
-            <Form.Control
-              as="input"
-              placeholder="input prefix"
-              id="prefix"
-              value={props.transformation.Prefix}
-              onChange={changePrefix}
-            />
-            <Form.Control
-              as="input"
-              placeholder="input suffix"
-              id="suffix"
-              value={props.transformation.Suffix}
-              onChange={changeSuffix}
-            />
-          </Col>
+          <TransformationItemPrefixSuffix
+            {...{
+              transformation: props.transformation,
+              changePrefixSuffix: changePrefixSuffix,
+            }}
+          />
         ) : null}
         {props.transformation != null &&
         isFilterTransformation(props.transformation) ? (
-          <Col>
-            <Form.Control
-              as="input"
-              placeholder="Filter name"
-              id="filterName"
-              value={props.transformation.FilterName}
-            />{" "}
-          </Col>
+          <TransformationItemSimpleFilter
+            {...{
+              transformation: props.transformation,
+              changeFilter: changeFilter,
+            }}
+          />
         ) : null}
-      </Form.Row>
-    </Form>
+      </div>
+    </div>
   );
 };
 
