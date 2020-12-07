@@ -73,25 +73,31 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
   };
 
   return (
-    <div className="mx-0 mt-1 mb-0">
-      <div className="mx-1 mt-1 mb-0">
-        <Form.Control
-          as="select"
-          id="transformation"
-          name="transformation"
-          onChange={changeTransformationType}
-          value={
-            props.transformation != null
-              ? isPrefixSuffixTransformation(props.transformation)
-                ? "PrefixSuffix"
-                : "SimpleFilter"
-              : ""
-          }
-        >
-          <option value="PrefixSuffix">PrefixSuffix</option>
-          <option value="SimpleFilter">SimpleFilter</option>
-        </Form.Control>
-      </div>
+    <div className="mx-0 mt-1 mb-0 border rounded">
+      <Form.Group as={Row} className="mx-1 mt-1 mb-0">
+        <Col xs={4}>
+          <Form.Check type={"checkbox"} custom checked label="Click to remove"/>
+
+        </Col>
+        <Col>
+          <Form.Control
+            as="select"
+            id="transformation"
+            name="transformation"
+            onChange={changeTransformationType}
+            value={
+              props.transformation != null
+                ? isPrefixSuffixTransformation(props.transformation)
+                  ? "PrefixSuffix"
+                  : "SimpleFilter"
+                : ""
+            }
+          >
+            <option value="PrefixSuffix">PrefixSuffix</option>
+            <option value="SimpleFilter">SimpleFilter</option>
+          </Form.Control>
+        </Col>
+      </Form.Group>
 
       <div className="mx-1 mt-1 mb-0">
         {props.transformation != null &&

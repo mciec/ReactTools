@@ -37,11 +37,11 @@ const transformationItemSimpleFilter: FunctionComponent<
 
   return (
     <React.Fragment>
-      <Form.Group as={Row} controlId="filterGroup">
-        <Form.Label column={true} lg={1}>
+      <Form.Group as={Row} controlId="filterGroup" className="mb-1">
+        <Form.Label column={true} xs={1}>
           Filter
         </Form.Label>
-        <Col lg={5}>
+        <Col>
           <Form.Control
             as="select"
             id="filter"
@@ -56,10 +56,10 @@ const transformationItemSimpleFilter: FunctionComponent<
             </option>
           </Form.Control>
         </Col>
-        <Form.Label column={true} lg={2}>
+        <Form.Label column={true} xs={2}>
           Function
         </Form.Label>
-        <Col lg={4}>
+        <Col>
           <Form.Control
             as="input"
             value={props.transformation.FilterFunc.toString()}

@@ -19,29 +19,33 @@ const transformationItemPrefixSuffix: FunctionComponent<
     props.changePrefixSuffix(props.transformation.Prefix, event.target.value);
 
   return (
-    <React.Fragment>
-      <span className="float-left" id="prefixGroup">
-        <label label-for="aaa">Prefix</label>
+    <Form.Group as={Row} controlId="prefixSuffixGroup" className="mb-1">
+      <Form.Label column={true} xs={1}>
+        Prefix
+      </Form.Label>
+      <Col>
         <Form.Control
           as="input"
-          id="aaa"
+          id="prefix"
           placeholder="Prefix"
           value={props.transformation.Prefix}
           onChange={changePrefix}
         />
-      </span>
+      </Col>
 
-      <span className="float-right">
-        <label label-for="bbb">Suffix</label>
+      <Form.Label column={true} xs={1}>
+        Suffix
+      </Form.Label>
+      <Col>
         <Form.Control
           as="input"
-          id="bbb"
+          id="suffix"
           placeholder="Suffix"
           value={props.transformation.Suffix}
           onChange={changeSuffix}
         />
-      </span>
-    </React.Fragment>
+      </Col>
+    </Form.Group>
   );
 };
 
