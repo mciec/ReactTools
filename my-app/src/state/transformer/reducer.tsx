@@ -8,11 +8,13 @@ import {
   CHANGE_TRANSFORMATION,
   isPrefixSuffixTransformation,
   isFilterTransformation,
+  ADD_TRANSFORMATION,
+  REMOVE_TRANSFORMATION,
 } from "./types";
 
 const doTransformation = function (
   src: string,
-  transformation: Transformation | null
+  transformation: Transformation
 ): string {
   if (transformation == null) return src;
 
@@ -34,12 +36,21 @@ const doTransformation = function (
   return src;
 };
 
+const doTransformations = function (
+  src: string,
+  transformations: Transformation[]
+): string {
+  let dst: string = src;
+  transformations.forEach((t) => (dst = doTransformation(dst, t)));
+  return dst;
+};
+
 export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
   if (s === undefined) {
     return {
       Src: { Text: "" },
       Dst: { Text: "" },
-      Transformation: null,
+      Transformations: [],
     };
   }
 
@@ -50,15 +61,39 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
         return {
           ...s,
           Src: { Text: mst.Text },
-          Dst: { Text: doTransformation(mst.Text, s.Transformation) },
+          Dst: { Text: doTransformations(mst.Text, s.Transformations) },
         };
       break;
 
-    case CHANGE_TRANSFORMATION:
+    case ADD_TRANSFORMATION:
+      let transformations: Transformation[] = [
+        ...s.Transformations.slice(),
+        { Prefix: "", Suffix: "" },
+      ];
       return {
         ...s,
-        Dst: { Text: doTransformation(s.Src.Text, a.payload) },
-        Transformation: a.payload,
+        Dst: { Text: doTransformations(s.Src.Text, transformations) },
+        Transformations: transformations,
+      };
+
+    case CHANGE_TRANSFORMATION:
+      transformations = [
+        ...s.Transformations.slice(0, a.payload.index),
+        a.payload.transformation,
+        ...s.Transformations.slice(a.payload.index + 1),
+      ];
+      return {
+        ...s,
+        Dst: { Text: doTransformations(s.Src.Text, transformations) },
+        Transformations: transformations,
+      };
+
+    case REMOVE_TRANSFORMATION:
+      transformations = s.Transformations.filter((_t, i) => i != a.payload);
+      return {
+        ...s,
+        Dst: { Text: doTransformations(s.Src.Text, transformations) },
+        Transformations: transformations,
       };
   }
   return s;

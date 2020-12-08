@@ -5,7 +5,7 @@ import { TransformerReducer } from "./Transformer/reducer";
 const initialState: Transformer = {
   Src: { Text: "" },
   Dst: { Text: "" },
-  Transformation: { Prefix: "", Suffix: "" },
+  Transformations: [{ Prefix: "", Suffix: "" }],
 };
 
 const store = createStore<Transformer, any, any, any>(

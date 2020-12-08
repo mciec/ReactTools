@@ -4,6 +4,7 @@ import { DstText } from "../DstText/types";
 export const MODIFY_SOURCE = "MODIFY_SOURCE";
 export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
 export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
+export const REMOVE_TRANSFORMATION = "REMOVE_TRANSFORMATION";
 
 export enum FilterType {
   NotStartingWithA = "Not starting with A",
@@ -33,7 +34,7 @@ export interface ModifySourceAction {
 
 export interface ChangeTransformationAction {
   type: typeof CHANGE_TRANSFORMATION;
-  payload: Transformation;
+  payload: { index: number; transformation: Transformation };
 }
 
 export interface AddTransformationAction {
@@ -41,15 +42,21 @@ export interface AddTransformationAction {
   payload: Transformation;
 }
 
+export interface RemoveTransformationAction {
+  type: typeof REMOVE_TRANSFORMATION;
+  payload: number;
+}
+
 export type UserAction =
   | ModifySourceAction
   | ChangeTransformationAction
-  | AddTransformationAction;
+  | AddTransformationAction
+  | RemoveTransformationAction;
 
 export type Transformer = {
   Src: SrcText;
   Dst: DstText;
-  Transformation: Transformation | null;
+  Transformations: Transformation[];
 };
 
 export function isPrefixSuffixTransformation(

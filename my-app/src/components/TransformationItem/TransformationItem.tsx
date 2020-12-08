@@ -16,7 +16,7 @@ import { TransformationItemPrefixSuffix } from "../TransformationItemPrefixSuffi
 import { TransformationItemSimpleFilter } from "../TransformationItemSimpleFilter/TransformationItemSimpleFilter";
 
 type ObjectProps = {
-  transformation: Transformation | null;
+  transformation: Transformation;
 };
 
 type FunctionProps = {
@@ -76,8 +76,12 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
     <div className="mx-0 mt-1 mb-0 border rounded">
       <Form.Group as={Row} className="mx-1 mt-1 mb-0">
         <Col xs={4}>
-          <Form.Check type={"checkbox"} custom checked label="Click to remove"/>
-
+          <Form.Check
+            type={"checkbox"}
+            custom
+            checked
+            label="Click to remove"
+          />
         </Col>
         <Col>
           <Form.Control
@@ -123,20 +127,20 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
   );
 };
 
-const mapStateToProps = function (state: Transformer): ObjectProps {
-  return {
-    transformation: state.Transformation,
-  };
-};
+// const mapStateToProps = function (state: Transformer): ObjectProps {
+//   return {
+//     transformation: state.Transformation,
+//   };
+// };
 
-const mapDispatchToProps = function (dispatch: any): FunctionProps {
-  return {
-    changeTransformationType: (t: Transformation) =>
-      dispatch(SetTransformation(t)),
-  };
-};
+// const mapDispatchToProps = function (dispatch: any): FunctionProps {
+//   return {
+//     changeTransformationType: (t: Transformation) =>
+//       dispatch(SetTransformation(t)),
+//   };
+// };
 
-export const TransformationItem = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(transformationItem);
+// export const TransformationItem = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(transformationItem);
