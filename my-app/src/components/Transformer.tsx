@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { InputBox } from "./InputBox/InputBox";
 import { OutputBox } from "./OutputBox/OutputBox";
-import { TransformationItem } from "./TransformationItem/TransformationItem";
+import { TransformationItems } from "./TransformationItems/TransformationItems";
 
 export const Transformer: FunctionComponent = () => {
   return (
@@ -14,7 +14,7 @@ export const Transformer: FunctionComponent = () => {
             <InputBox />
           </Col>
           <Col>
-            <TransformationItem />
+            <TransformationItems />
           </Col>
           <Col>
             <OutputBox />

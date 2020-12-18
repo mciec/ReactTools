@@ -1,14 +1,14 @@
 import { createStore } from "redux";
-import { Transformer } from "./Transformer/types";
-import { TransformerReducer } from "./Transformer/reducer";
+import { TextTransformer } from "./TextTransformer/types";
+import { TransformerReducer } from "./TextTransformer/reducer";
 
-const initialState: Transformer = {
+const initialState: TextTransformer = {
   Src: { Text: "" },
   Dst: { Text: "" },
   Transformations: [{ Prefix: "", Suffix: "" }],
 };
 
-const store = createStore<Transformer, any, any, any>(
+const store = createStore<TextTransformer, any, any, any>(
   TransformerReducer,
   initialState
 );

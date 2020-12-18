@@ -2,7 +2,7 @@ import { Reducer } from "redux";
 import {
   SourceText,
   Transformation,
-  Transformer,
+  TextTransformer,
   UserAction,
   MODIFY_SOURCE,
   CHANGE_TRANSFORMATION,
@@ -45,7 +45,10 @@ const doTransformations = function (
   return dst;
 };
 
-export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
+export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
+  s,
+  a
+) => {
   if (s === undefined) {
     return {
       Src: { Text: "" },
@@ -68,7 +71,7 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
     case ADD_TRANSFORMATION:
       let transformations: Transformation[] = [
         ...s.Transformations.slice(),
-        { Prefix: "", Suffix: "" },
+        a.payload,
       ];
       return {
         ...s,
@@ -89,7 +92,7 @@ export const TransformerReducer: Reducer<Transformer, UserAction> = (s, a) => {
       };
 
     case REMOVE_TRANSFORMATION:
-      transformations = s.Transformations.filter((_t, i) => i != a.payload);
+      transformations = s.Transformations.filter((_t, i) => i !== a.payload);
       return {
         ...s,
         Dst: { Text: doTransformations(s.Src.Text, transformations) },

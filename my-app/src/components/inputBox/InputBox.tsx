@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
-import { Transformer } from "../../state/Transformer/types";
+import { TextTransformer } from "../../state/TextTransformer/types";
 import { SrcText } from "../../state/SrcText/types";
-import { ModifySource } from "../../state/Transformer/actions";
+import { ModifySource } from "../../state/TextTransformer/actions";
 import { connect } from "react-redux";
 import { Form } from "react-bootstrap";
 
@@ -31,7 +31,7 @@ const inputBox: FunctionComponent<ObjectProps & FunctionProps> = (props) => {
   );
 };
 
-const mapStateToProps = function (state: Transformer): ObjectProps {
+const mapStateToProps = function (state: TextTransformer): ObjectProps {
   return {
     srcText: state.Src,
   };

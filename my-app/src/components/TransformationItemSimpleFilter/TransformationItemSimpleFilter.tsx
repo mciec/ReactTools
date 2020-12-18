@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import {
   FilterType,
   FilterTransformation,
-} from "../../state/Transformer/types";
+} from "../../state/TextTransformer/types";
 
 type ObjectProps = {
   transformation: FilterTransformation;

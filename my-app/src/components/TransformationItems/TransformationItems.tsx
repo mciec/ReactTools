@@ -1,40 +1,77 @@
-import { Transformation } from "../../state/Transformer/types";
+import React, { FunctionComponent } from "react";
+import { Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import {
+  AddTransformation,
+  RemoveTransformation,
+  SetTransformation,
+} from "../../state/TextTransformer/actions";
+import {
+  TextTransformer,
+  Transformation,
+} from "../../state/TextTransformer/types";
+import { TransformationItem } from "../TransformationItem/TransformationItem";
 
 type ObjectProps = {
-    transformation: Transformation;
+  transformations: Transformation[];
+};
+
+type FunctionProps = {
+  changeTransformationType: (i: number, t: Transformation) => any;
+  addTransformation: (t: Transformation) => any;
+  removeTransformation: (i: number) => any;
+};
+
+const transformationItems: FunctionComponent<ObjectProps & FunctionProps> = (
+  props
+) => {
+  return (
+    <>
+      {props.transformations.forEach((t, i) => {
+        console.log(i);
+        return (
+          <TransformationItem
+            transformation={t}
+            changeTransformationType={(newTransformation: Transformation) => {
+              let x = 7;
+              props.changeTransformationType(i, newTransformation);
+            }}
+            removeTransformation={() => props.removeTransformation(i)}
+          />
+        );
+      })}
+
+      <Button
+        variant="primary"
+        size="lg"
+        block
+        onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) =>
+          props.addTransformation({ Prefix: "", Suffix: "" })
+        }
+      >
+        New transformation
+      </Button>
+    </>
+  );
+};
+
+const mapStateToProps = function (state: TextTransformer): ObjectProps {
+  return {
+    transformations: state.Transformations,
   };
-  
-  type FunctionProps = {
-    changeTransformationType: (t: Transformation) => any;
+};
+
+const mapDispatchToProps = function (dispatch: any): FunctionProps {
+  return {
+    changeTransformationType: (i: number, t: Transformation) =>
+      dispatch(SetTransformation(i, t)),
+
+    addTransformation: (t) => dispatch(AddTransformation(t)),
+    removeTransformation: (i: number) => dispatch(RemoveTransformation(i)),
   };
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-const mapStateToProps = function (state: Transformer): ObjectProps {
-    //   return {
-    //     transformation: state.Transformation,
-    //   };
-    // };
-    
-    // const mapDispatchToProps = function (dispatch: any): FunctionProps {
-    //   return {
-    //     changeTransformationType: (t: Transformation) =>
-    //       dispatch(SetTransformation(t)),
-    //   };
-    // };
-    
-    // export const TransformationItem = connect(
-    //   mapStateToProps,
-    //   mapDispatchToProps
-    // )(transformationItem);
-    
+export const TransformationItems = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(transformationItems);

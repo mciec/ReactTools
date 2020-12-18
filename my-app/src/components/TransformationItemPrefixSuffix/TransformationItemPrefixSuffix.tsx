@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
-import { PrefixSuffixTransformation } from "../../state/Transformer/types";
+import { Col, Form, Row } from "react-bootstrap";
+import { PrefixSuffixTransformation } from "../../state/TextTransformer/types";
 
 type ObjectProps = {
   transformation: PrefixSuffixTransformation;

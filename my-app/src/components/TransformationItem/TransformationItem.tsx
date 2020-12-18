@@ -5,13 +5,10 @@ import {
   isFilterTransformation,
   isPrefixSuffixTransformation,
   Transformation,
-  Transformer,
-} from "../../state/Transformer/types";
-import { connect } from "react-redux";
-import { SetTransformation } from "../../state/Transformer/actions";
+} from "../../state/TextTransformer/types";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
-import { Container, InputGroup, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { TransformationItemPrefixSuffix } from "../TransformationItemPrefixSuffix/TransformationItemPrefixSuffix";
 import { TransformationItemSimpleFilter } from "../TransformationItemSimpleFilter/TransformationItemSimpleFilter";
 
@@ -21,11 +18,14 @@ type ObjectProps = {
 
 type FunctionProps = {
   changeTransformationType: (t: Transformation) => any;
+  removeTransformation: () => any;
 };
 
 const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
   props
 ) => {
+  let x = props;
+
   const changeTransformationType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -72,6 +72,10 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
     }
   };
 
+  const removeTransformation = (event: React.FormEvent<HTMLInputElement>) => {
+    props.removeTransformation();
+  };
+
   return (
     <div className="mx-0 mt-1 mb-0 border rounded">
       <Form.Group as={Row} className="mx-1 mt-1 mb-0">
@@ -81,6 +85,7 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
             custom
             checked
             label="Click to remove"
+            onChange={removeTransformation}
           />
         </Col>
         <Col>
@@ -144,3 +149,5 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
 //   mapStateToProps,
 //   mapDispatchToProps
 // )(transformationItem);
+
+export const TransformationItem = transformationItem;

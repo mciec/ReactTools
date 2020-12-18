@@ -53,7 +53,7 @@ export type UserAction =
   | AddTransformationAction
   | RemoveTransformationAction;
 
-export type Transformer = {
+export type TextTransformer = {
   Src: SrcText;
   Dst: DstText;
   Transformations: Transformation[];

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
 import { DstText } from "../../state/DstText/types";
-import { Transformer } from "../../state/Transformer/types";
+import { TextTransformer } from "../../state/TextTransformer/types";
 import { connect } from "react-redux";
 import { Form } from "react-bootstrap";
 
@@ -20,7 +20,7 @@ const outputBox: FunctionComponent<ObjectProps> = (props) => {
   );
 };
 
-const mapStateToProps = function (state: Transformer): ObjectProps {
+const mapStateToProps = function (state: TextTransformer): ObjectProps {
   return {
     dstText: state.Dst,
   };
