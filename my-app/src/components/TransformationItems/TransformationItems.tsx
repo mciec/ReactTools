@@ -27,20 +27,18 @@ const transformationItems: FunctionComponent<ObjectProps & FunctionProps> = (
 ) => {
   return (
     <>
-      {props.transformations.forEach((t, i) => {
-        console.log(i);
+      {props.transformations.map((t, i) => {
         return (
           <TransformationItem
             transformation={t}
             changeTransformationType={(newTransformation: Transformation) => {
-              let x = 7;
               props.changeTransformationType(i, newTransformation);
             }}
             removeTransformation={() => props.removeTransformation(i)}
+            key={`transfItem${i}`}
           />
         );
       })}
-
       <Button
         variant="primary"
         size="lg"

@@ -26,7 +26,6 @@ const transformationItemPrefixSuffix: FunctionComponent<
       <Col>
         <Form.Control
           as="input"
-          id="prefix"
           placeholder="Prefix"
           value={props.transformation.Prefix}
           onChange={changePrefix}
@@ -39,7 +38,6 @@ const transformationItemPrefixSuffix: FunctionComponent<
       <Col>
         <Form.Control
           as="input"
-          id="suffix"
           placeholder="Suffix"
           value={props.transformation.Suffix}
           onChange={changeSuffix}

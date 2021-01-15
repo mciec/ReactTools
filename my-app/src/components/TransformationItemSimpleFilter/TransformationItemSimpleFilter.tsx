@@ -44,7 +44,6 @@ const transformationItemSimpleFilter: FunctionComponent<
         <Col>
           <Form.Control
             as="select"
-            id="filter"
             onChange={changeFilter}
             value={props.transformation.FilterName}
           >
@@ -63,6 +62,7 @@ const transformationItemSimpleFilter: FunctionComponent<
           <Form.Control
             as="input"
             value={props.transformation.FilterFunc.toString()}
+            readOnly
           />
         </Col>
       </Form.Group>

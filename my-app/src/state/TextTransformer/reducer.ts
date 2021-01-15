@@ -56,6 +56,7 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       Transformations: [],
     };
   }
+  let transformations: Transformation[];
 
   switch (a.type) {
     case MODIFY_SOURCE:
@@ -69,10 +70,7 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       break;
 
     case ADD_TRANSFORMATION:
-      let transformations: Transformation[] = [
-        ...s.Transformations.slice(),
-        a.payload,
-      ];
+      transformations = [...s.Transformations.slice(), a.payload];
       return {
         ...s,
         Dst: { Text: doTransformations(s.Src.Text, transformations) },
@@ -80,11 +78,10 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       };
 
     case CHANGE_TRANSFORMATION:
-      transformations = [
-        ...s.Transformations.slice(0, a.payload.index),
-        a.payload.transformation,
-        ...s.Transformations.slice(a.payload.index + 1),
-      ];
+      let before = s.Transformations.slice(0, a.payload.index);
+      let after = s.Transformations.slice(a.payload.index + 1);
+
+      transformations = [...before, a.payload.transformation, ...after];
       return {
         ...s,
         Dst: { Text: doTransformations(s.Src.Text, transformations) },

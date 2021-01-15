@@ -16,6 +16,7 @@ const outputBox: FunctionComponent<ObjectProps> = (props) => {
       rows={20}
       id="MyDstText"
       value={props.dstText.Text}
+      readOnly
     />
   );
 };

@@ -24,8 +24,6 @@ type FunctionProps = {
 const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
   props
 ) => {
-  let x = props;
-
   const changeTransformationType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -81,8 +79,8 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
       <Form.Group as={Row} className="mx-1 mt-1 mb-0">
         <Col xs={4}>
           <Form.Check
-            type={"checkbox"}
-            custom
+            //custom
+            type={'checkbox'}
             checked
             label="Click to remove"
             onChange={removeTransformation}
@@ -91,7 +89,6 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
         <Col>
           <Form.Control
             as="select"
-            id="transformation"
             name="transformation"
             onChange={changeTransformationType}
             value={
