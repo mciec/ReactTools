@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import {
   AddTransformation,
+  ExecTransformations,
   RemoveTransformation,
   SetTransformation,
 } from "../../state/TextTransformer/actions";
@@ -20,6 +21,7 @@ type FunctionProps = {
   changeTransformationType: (i: number, t: Transformation) => any;
   addTransformation: (t: Transformation) => any;
   removeTransformation: (i: number) => any;
+  execTransformations: () => any;
 };
 
 const transformationItems: FunctionComponent<ObjectProps & FunctionProps> = (
@@ -27,6 +29,16 @@ const transformationItems: FunctionComponent<ObjectProps & FunctionProps> = (
 ) => {
   return (
     <>
+    <Button
+        variant="primary"
+        size="lg"
+        block
+        onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) =>
+          props.execTransformations()
+        }
+      >
+        Execute all
+      </Button>
       {props.transformations.map((t, i) => {
         return (
           <TransformationItem
@@ -66,6 +78,7 @@ const mapDispatchToProps = function (dispatch: any): FunctionProps {
 
     addTransformation: (t) => dispatch(AddTransformation(t)),
     removeTransformation: (i: number) => dispatch(RemoveTransformation(i)),
+    execTransformations: () => dispatch(ExecTransformations()),
   };
 };
 

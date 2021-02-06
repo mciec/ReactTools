@@ -10,6 +10,7 @@ import {
   isFilterTransformation,
   ADD_TRANSFORMATION,
   REMOVE_TRANSFORMATION,
+  EXEC_TRANSFORMATIONS,
 } from "./types";
 
 const doTransformation = function (
@@ -65,7 +66,6 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
         return {
           ...s,
           Src: { Text: mst.Text },
-          Dst: { Text: doTransformations(mst.Text, s.Transformations) },
         };
       break;
 
@@ -73,7 +73,6 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       transformations = [...s.Transformations.slice(), a.payload];
       return {
         ...s,
-        Dst: { Text: doTransformations(s.Src.Text, transformations) },
         Transformations: transformations,
       };
 
@@ -84,7 +83,6 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       transformations = [...before, a.payload.transformation, ...after];
       return {
         ...s,
-        Dst: { Text: doTransformations(s.Src.Text, transformations) },
         Transformations: transformations,
       };
 
@@ -92,8 +90,13 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
       transformations = s.Transformations.filter((_t, i) => i !== a.payload);
       return {
         ...s,
-        Dst: { Text: doTransformations(s.Src.Text, transformations) },
         Transformations: transformations,
+      };
+    
+    case EXEC_TRANSFORMATIONS:
+      return {
+        ...s,
+        Dst: { Text: doTransformations(s.Src.Text, s.Transformations) },
       };
   }
   return s;

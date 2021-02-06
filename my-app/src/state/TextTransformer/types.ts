@@ -5,6 +5,12 @@ export const MODIFY_SOURCE = "MODIFY_SOURCE";
 export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
 export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
 export const REMOVE_TRANSFORMATION = "REMOVE_TRANSFORMATION";
+export const EXEC_TRANSFORMATIONS = "EXEC_TRANSFORMATIONS";
+
+export enum APICALL_ACTION {
+  EXEC_TRANSFORMATION_BY_API = "EXEC_TRANSFORMATION_BY_API"
+}
+
 
 export enum FilterType {
   NotStartingWithA = "Not starting with A",
@@ -47,11 +53,16 @@ export interface RemoveTransformationAction {
   payload: number;
 }
 
+export interface ExecTransformationAction {
+  type: typeof EXEC_TRANSFORMATIONS;
+}
+
 export type UserAction =
   | ModifySourceAction
   | ChangeTransformationAction
   | AddTransformationAction
-  | RemoveTransformationAction;
+  | RemoveTransformationAction
+  | ExecTransformationAction;
 
 export type TextTransformer = {
   Src: SrcText;

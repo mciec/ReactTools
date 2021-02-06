@@ -3,6 +3,7 @@ import {
   CHANGE_TRANSFORMATION,
   MODIFY_SOURCE,
   REMOVE_TRANSFORMATION,
+  EXEC_TRANSFORMATIONS,
   Transformation,
   UserAction,
 } from "./types";
@@ -37,5 +38,11 @@ export function RemoveTransformation(i: number): UserAction {
   return {
     type: REMOVE_TRANSFORMATION,
     payload: i,
+  };
+}
+
+export function ExecTransformations(): UserAction {
+  return {
+    type: EXEC_TRANSFORMATIONS,
   };
 }
