@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import { InputBox } from "./InputBox/InputBox";
-import { OutputBox } from "./OutputBox/OutputBox";
+import { InputBox } from "./inputBox/InputBox";
+import { OutputBox } from "./outputBox/OutputBox";
 import { TransformationItems } from "./TransformationItems/TransformationItems";
 
 export const Transformer: FunctionComponent = () => {
