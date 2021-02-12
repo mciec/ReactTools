@@ -38,7 +38,9 @@ export const TransformationItems: FunctionComponent = () => {
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) =>
           execTransformations()
         }
-      />
+      >
+        Execute
+      </Button>
       {transformations.map((t, i) => {
         return (
           <TransformationItem

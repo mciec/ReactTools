@@ -4,9 +4,11 @@ import {
   MODIFY_SOURCE,
   REMOVE_TRANSFORMATION,
   EXEC_TRANSFORMATIONS,
+  EXEC_TRANSFORMATIONS_ASYNC,
   Transformation,
   UserAction,
 } from "./types";
+import { createAsyncThunk, AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 
 export function ModifySource(str: string): UserAction {
   return {
@@ -46,3 +48,11 @@ export function ExecTransformations(): UserAction {
     type: EXEC_TRANSFORMATIONS,
   };
 }
+
+export const fetchTodos = createAsyncThunk(
+  EXEC_TRANSFORMATIONS_ASYNC,
+  async (l: string) => {
+    const response: Number = 7; //await client.get('/fakeApi/todos')
+    return response;
+  }
+);

@@ -6,11 +6,11 @@ export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
 export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
 export const REMOVE_TRANSFORMATION = "REMOVE_TRANSFORMATION";
 export const EXEC_TRANSFORMATIONS = "EXEC_TRANSFORMATIONS";
+export const EXEC_TRANSFORMATIONS_ASYNC = "EXEC_TRANSFORMATIONS_ASYNC";
 
 export enum APICALL_ACTION {
   EXEC_TRANSFORMATION_BY_API = "EXEC_TRANSFORMATION_BY_API"
 }
-
 
 export enum FilterType {
   NotStartingWithA = "Not starting with A",
@@ -56,6 +56,11 @@ export interface RemoveTransformationAction {
 export interface ExecTransformationAction {
   type: typeof EXEC_TRANSFORMATIONS;
 }
+
+export interface ExecTransformationActionAsync {
+  type: typeof EXEC_TRANSFORMATIONS_ASYNC;
+}
+
 
 export type UserAction =
   | ModifySourceAction
