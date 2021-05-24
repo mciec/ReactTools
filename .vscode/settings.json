@@ -6,7 +6,7 @@
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "editor.fontSize": 14,
+    "editor.fontSize": 15,
     "editor.fontLigatures": null,
     "editor.fontWeight": 300
 

@@ -1,35 +1,35 @@
 import { SrcText } from "../SrcText/types";
 import { DstText } from "../DstText/types";
-
+import { Transform } from "stream";
 export const MODIFY_SOURCE = "MODIFY_SOURCE";
 export const CHANGE_TRANSFORMATION = "CHANGE_TRANSFORMATION";
 export const ADD_TRANSFORMATION = "ADD_TRANSFORMATION";
 export const REMOVE_TRANSFORMATION = "REMOVE_TRANSFORMATION";
-export const EXEC_TRANSFORMATIONS = "EXEC_TRANSFORMATIONS";
-export const EXEC_TRANSFORMATIONS_ASYNC = "EXEC_TRANSFORMATIONS_ASYNC";
+export const EXEC_TRANSFORMATIONS_REQ = "EXEC_TRANSFORMATIONS_REQ";
+export const EXEC_TRANSFORMATIONS_SUCCESS = "EXEC_TRANSFORMATIONS_SUCCESS";
+export const EXEC_TRANSFORMATIONS_ERR = "EXEC_TRANSFORMATIONS_ERR";
 
-export enum APICALL_ACTION {
-  EXEC_TRANSFORMATION_BY_API = "EXEC_TRANSFORMATION_BY_API"
-}
-
-export enum FilterType {
-  NotStartingWithA = "Not starting with A",
-  ShorterThan10Chars = "Shorter than 10 chars",
+export enum TransformationType {
+  PrefixSuffix,
+  Filter,
 }
 
 export type SourceText = {
   Text: string;
 };
 
+type BaseTransformation = {
+  Type: TransformationType;
+};
+
 export type PrefixSuffixTransformation = {
   Prefix: string;
   Suffix: string;
-};
+} & BaseTransformation;
 
 export type FilterTransformation = {
-  FilterName: FilterType;
-  FilterFunc(line: string): boolean;
-};
+  FilterParam: string;
+} & BaseTransformation;
 
 export type Transformation = PrefixSuffixTransformation | FilterTransformation;
 
@@ -53,21 +53,40 @@ export interface RemoveTransformationAction {
   payload: number;
 }
 
-export interface ExecTransformationAction {
-  type: typeof EXEC_TRANSFORMATIONS;
+// export interface ExecTransformationAction {
+//   type: typeof EXEC_TRANSFORMATIONS;
+// }
+
+export interface ExecTransformationsReqAction {
+  type: typeof EXEC_TRANSFORMATIONS_REQ;
+  payload: {
+    Text: string;
+    Transformations: Transformation[];
+  };
 }
 
-export interface ExecTransformationActionAsync {
-  type: typeof EXEC_TRANSFORMATIONS_ASYNC;
+export interface ExecTransformationsSuccessAction {
+  type: typeof EXEC_TRANSFORMATIONS_SUCCESS;
+  payload: {
+    Text: string;
+  };
 }
 
+export interface ExecTransformationsErrAction {
+  type: typeof EXEC_TRANSFORMATIONS_ERR;
+  payload: {
+    Text: string;
+  };
+}
 
 export type UserAction =
   | ModifySourceAction
   | ChangeTransformationAction
   | AddTransformationAction
   | RemoveTransformationAction
-  | ExecTransformationAction;
+  | ExecTransformationsReqAction
+  | ExecTransformationsSuccessAction
+  | ExecTransformationsErrAction;
 
 export type TextTransformer = {
   Src: SrcText;
@@ -78,11 +97,14 @@ export type TextTransformer = {
 export function isPrefixSuffixTransformation(
   t: Transformation
 ): t is PrefixSuffixTransformation {
-  return (t as PrefixSuffixTransformation).Prefix !== undefined;
+  return (
+    (t as PrefixSuffixTransformation).Prefix !== undefined ||
+    (t as PrefixSuffixTransformation).Suffix !== undefined
+  );
 }
 
 export function isFilterTransformation(
   t: Transformation
 ): t is FilterTransformation {
-  return (t as FilterTransformation).FilterName !== undefined;
+  return (t as FilterTransformation).FilterParam !== undefined;
 }

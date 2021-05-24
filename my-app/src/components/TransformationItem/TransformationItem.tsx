@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "../../App.css";
 import {
-  FilterType,
+  TransformationType,
   isFilterTransformation,
   isPrefixSuffixTransformation,
   Transformation,
@@ -30,12 +30,16 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
     let a: string = event.target.value;
     switch (a) {
       case "PrefixSuffix":
-        props.changeTransformationType({ Prefix: "**", Suffix: "##" });
+        props.changeTransformationType({
+          Type: TransformationType.PrefixSuffix,
+          Prefix: "**",
+          Suffix: "##",
+        });
         break;
       case "SimpleFilter":
         props.changeTransformationType({
-          FilterName: FilterType.NotStartingWithA,
-          FilterFunc: (line) => !line.startsWith("A"),
+          Type: TransformationType.Filter,
+          FilterParam: "",
         });
         break;
     }
@@ -54,18 +58,14 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
     }
   };
 
-  const changeFilter = (
-    filterName: FilterType,
-    filterFunc: (line: string) => boolean
-  ) => {
+  const changeFilter = (filterParam: string) => {
     if (
       props.transformation != null &&
       isFilterTransformation(props.transformation)
     ) {
       props.changeTransformationType({
         ...props.transformation,
-        FilterName: filterName,
-        FilterFunc: filterFunc,
+        FilterParam: filterParam,
       });
     }
   };
@@ -80,7 +80,7 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
         <Col xs={4}>
           <Form.Check
             //custom
-            type={'checkbox'}
+            type={"checkbox"}
             checked
             label="Click to remove"
             onChange={removeTransformation}
@@ -120,7 +120,7 @@ const transformationItem: FunctionComponent<ObjectProps & FunctionProps> = (
           <TransformationItemSimpleFilter
             {...{
               transformation: props.transformation,
-              changeFilter: changeFilter,
+              changeFilterParam: changeFilter,
             }}
           />
         ) : null}

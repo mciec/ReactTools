@@ -3,21 +3,28 @@ import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   AddTransformation,
-  ExecTransformations,
+  ExecTransformationsReq,
   RemoveTransformation,
   SetTransformation,
 } from "../../state/TextTransformer/actions";
 import {
   TextTransformer,
   Transformation,
+  TransformationType,
 } from "../../state/TextTransformer/types";
 import { TransformationItem } from "../TransformationItem/TransformationItem";
+
 export const TransformationItems: FunctionComponent = () => {
+  const dispatch = useDispatch();
+
   const transformations: Transformation[] = useSelector<
     TextTransformer,
     Transformation[]
   >((store) => store.Transformations);
-  const dispatch = useDispatch();
+
+  const srcText: string = useSelector<TextTransformer, string>(
+    (store) => store.Src.Text
+  );
 
   const changeTransformationType = (i: number, t: Transformation) =>
     dispatch(SetTransformation(i, t));
@@ -27,7 +34,8 @@ export const TransformationItems: FunctionComponent = () => {
 
   const removeTransformation = (i: number) => dispatch(RemoveTransformation(i));
 
-  const execTransformations = () => dispatch(ExecTransformations());
+  const execTransformations = () =>
+    dispatch(ExecTransformationsReq(srcText, transformations));
 
   return (
     <>
@@ -58,7 +66,11 @@ export const TransformationItems: FunctionComponent = () => {
         size="lg"
         block
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) =>
-          addTransformation({ Prefix: "", Suffix: "" })
+          addTransformation({
+            Type: TransformationType.PrefixSuffix,
+            Prefix: "",
+            Suffix: "",
+          })
         }
       >
         New transformation

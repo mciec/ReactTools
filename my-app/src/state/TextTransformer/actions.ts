@@ -3,12 +3,12 @@ import {
   CHANGE_TRANSFORMATION,
   MODIFY_SOURCE,
   REMOVE_TRANSFORMATION,
-  EXEC_TRANSFORMATIONS,
-  EXEC_TRANSFORMATIONS_ASYNC,
+  EXEC_TRANSFORMATIONS_REQ,
+  EXEC_TRANSFORMATIONS_SUCCESS,
+  EXEC_TRANSFORMATIONS_ERR,
   Transformation,
   UserAction,
 } from "./types";
-import { createAsyncThunk, AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 
 export function ModifySource(str: string): UserAction {
   return {
@@ -43,16 +43,33 @@ export function RemoveTransformation(i: number): UserAction {
   };
 }
 
-export function ExecTransformations(): UserAction {
+export function ExecTransformationsReq(
+  text: string,
+  transformations: Transformation[]
+): UserAction {
   return {
-    type: EXEC_TRANSFORMATIONS,
+    type: EXEC_TRANSFORMATIONS_REQ,
+    payload: {
+      Text: text,
+      Transformations: transformations,
+    },
   };
 }
 
-export const fetchTodos = createAsyncThunk(
-  EXEC_TRANSFORMATIONS_ASYNC,
-  async (l: string) => {
-    const response: Number = 7; //await client.get('/fakeApi/todos')
-    return response;
-  }
-);
+export function ExecTransformationsSuccess(result: string): UserAction {
+  return {
+    type: EXEC_TRANSFORMATIONS_SUCCESS,
+    payload: {
+      Text: result,
+    },
+  };
+}
+
+export function ExecTransformationsErr(err: string): UserAction {
+  return {
+    type: EXEC_TRANSFORMATIONS_ERR,
+    payload: {
+      Text: err,
+    },
+  };
+}

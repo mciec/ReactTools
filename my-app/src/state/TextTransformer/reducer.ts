@@ -10,7 +10,9 @@ import {
   isFilterTransformation,
   ADD_TRANSFORMATION,
   REMOVE_TRANSFORMATION,
-  EXEC_TRANSFORMATIONS,
+  EXEC_TRANSFORMATIONS_REQ,
+  EXEC_TRANSFORMATIONS_SUCCESS,
+  EXEC_TRANSFORMATIONS_ERR,
 } from "./types";
 
 const doTransformation = function (
@@ -29,7 +31,8 @@ const doTransformation = function (
   } else if (isFilterTransformation(transformation)) {
     let lines: string[] = src.split("\n");
     let dst = lines.filter((line) =>
-      transformation.FilterFunc(line) ? line : ""
+      //transformation.FilterFunc(line) ? line : ""
+      line.match(transformation.FilterParam) != null ? line : ""
     );
     let res: string = dst.join("\n");
     return res;
@@ -92,8 +95,8 @@ export const TransformerReducer: Reducer<TextTransformer, UserAction> = (
         ...s,
         Transformations: transformations,
       };
-    
-    case EXEC_TRANSFORMATIONS:
+
+    case EXEC_TRANSFORMATIONS_REQ:
       return {
         ...s,
         Dst: { Text: doTransformations(s.Src.Text, s.Transformations) },
